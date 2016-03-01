@@ -1,0 +1,16 @@
+---
+#
+- src: https://github.com/jeqo/ansible-role-java
+  name: java
+
+- src: https://github.com/jeqo/ansible-role-oracle-database
+  name: oracle-database
+
+- src: https://github.com/jeqo/ansible-role-oracle-database-sql
+  name: oracle-database-sql
+
+- src: https://github.com/TheDotHub/oracle-weblogic
+  name: oracle-weblogic
+
+- src: https://github.com/TheDotHub/oracle-wlst
+  name: oracle-wlst

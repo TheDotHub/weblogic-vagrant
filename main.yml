@@ -1,0 +1,104 @@
+---
+- name: main
+  hosts: 127.0.0.1
+  roles:
+    - role: java
+
+    - role: oracle-database
+      oracle_database_version: 11g # supported versions: [11g]
+      # installation variables
+      oracle_database_release: 11.2.0.4 # supported releases: [11.2.0.4]
+      oracle_database_edition: SE # supported editions: [SE,EE]
+
+      # instance variables
+      oracle_database_sid: FMWDB
+      oracle_database_global_name: FMWDB
+      oracle_database_template_name: General_Purpose.dbc
+      oracle_database_admin_password: welcome1
+      oracle_database_auto_memory_mgnt: TRUE
+      oracle_database_memory_percentage: 80
+      oracle_database_memory_total: 1024
+      oracle_database_type: MULTIPURPOSE
+      # listener variables
+      oracle_database_listener_name: LISTENER
+      oracle_database_listener_port: 1521
+      # avoid error in docker related with https://community.oracle.com/thread/2401396
+      oracle_database_init_params: JAVA_JIT_ENABLED=FALSE
+
+    - role: oracle-database-sql
+      oracle_database_sql_oracle_home: "{{ oracle_database_oracle_home }}" #
+      oracle_database_sql_sid: FMWDB
+      oracle_database_sql_admin_username: system #
+      oracle_database_sql_admin_password: welcome1 #
+      oracle_database_sql_is_dba: no #
+      oracle_database_sql_create_schemas: yes
+      oracle_database_sql_schemas:
+        -
+          name: CROSSNET
+          password: welcome1
+          grants:
+            - CONNECT
+            - RESOURCE
+
+
+    - role: oracle-weblogic
+      oracle_weblogic_version: 11g
+      oracle_weblogic_release: 10.3.6
+      oracle_weblogic_quick_installation: yes
+      oracle_weblogic_install_infra: no
+
+      oracle_weblogic_jar: /etc/wls1036_generic.jar
+
+
+    - role: oracle-wlst
+      oracle_wlst_execute: yes
+      oracle_wlst_oracle_home: /opt/oraclefmw/product/oracle_home
+
+      oracle_wlst_create_domain: yes
+
+      oracle_wlst_create_domain_domains_home: /home/oraclefmw/config/domains #
+      oracle_wlst_create_domain_applications_home: /home/oraclefmw/config/apps #
+      oracle_wlst_create_domain_info:
+        name: local #
+        templates:
+          -
+            name: Basic WebLogic Server Domain
+            version: 10.3.6
+        adminserver:
+          name: AdminServer
+          listen_address:
+          listen_port: 7101
+        adminuser:
+          username: weblogic
+          password: welcome1
+        custom_datasources:
+          -
+            name: 
+            targets: AdminServer
+            jdbc_driver: oracle.jdbc.OracleDriver
+            jdbc_url: jdbc:oracle:thin:@local-osi-db:1521:FMWDB
+            schema_username: USER
+            schema_password: welcome1
+        filestores:
+            -
+              name: 
+              directory: 
+              targets: 
+        messaging:
+          jms_servers:
+            -
+              name: 
+              filestore: 
+              targets: 
+              jms_modules:
+                -
+                  name: 
+                  subdeployment: 
+                  targets: 
+                  connection_factories:
+                    -
+                      name: 
+                  queues:
+                    -
+                      name: 
+
