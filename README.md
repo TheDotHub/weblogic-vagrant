@@ -9,5 +9,6 @@ Don't forget to download wls1036_generic and place it on /roles/oracle-weblogic/
 Credits
 --------
 
-Diego Otoya (https://github.com/TheDotHub)
-Jorge Quilcate (https://github.com/jeqo) for java and oracle db roles
+  - Diego Otoya (https://github.com/TheDotHub)
+  - Jorge Quilcate (https://github.com/jeqo) for java and oracle db roles
+
