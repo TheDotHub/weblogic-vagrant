@@ -12,7 +12,6 @@ Vagrant.configure(2) do |config|
     vb.cpus = 1
     vb.memory = "1500"
     vb.name = "local-osi-db"
-    vb.gui = "true"
   end
 
   config.vm.provision "shell", inline: "cd /vagrant && ansible-galaxy install -f -p ./roles -r roles.yml"
